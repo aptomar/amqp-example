@@ -5,6 +5,8 @@ var amqp = require('amqp');
 var amqpUrl = process.env.CLOUDAMQP_URL || 'amqp://localhost'; // default to localhost
 var amqpConn = amqp.createConnection({url: amqpUrl}); // create the connection
 
+// Handle the messages.  We'll be a little more explicit here to show how to handle different messages on different
+// routing keys.
 function handleMessage(message, headers, deliveryInfo) {
     switch(deliveryInfo.routingKey) {
     case 'munin.tracking.periodic-time':
@@ -20,11 +22,13 @@ function handleMessage(message, headers, deliveryInfo) {
 
 }
 
+// Subscribe to the proper queue.
 function subscribeToAmqpQueue(queue) {
 
     queue.subscribe(handleMessage);
 }
 
+// Set up and bind the queue to the exchange.
 function setupAmqpQueue(exchange) {
     console.log('Exchange ' + exchange.name + ' is open');
 
@@ -40,12 +44,13 @@ function setupAmqpQueue(exchange) {
     });
 }
 
+// And create a queue that matches the normal exchange.
 function setupAmqpExchange() {
     var exchangeOpts = {
         type: 'fanout'
     };
 
-    amqpConn.exchange('munin-tracking', exchangeOpts, setupAmqpQueue); // set up a munin exchange
+    amqpConn.exchange('munin', exchangeOpts, setupAmqpQueue); // set up a munin exchange
 }
 
 amqpConn.on('ready', setupAmqpExchange); // when connected, set up the amqp backend and listen for messages.

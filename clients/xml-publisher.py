@@ -6,6 +6,13 @@ import pika
 import os
 import threading
 
+
+# We'll start by creating a few types and functions for generating
+# some example XML messages.  Then we will create and publish some
+# messages to the proper munin queue.  Note that the API for this
+# is a bit different from the node.js version, but follows a similar
+# set of concepts.
+
 targetTypes = {
     0: 'unknown',
     1: 'vessel',
@@ -50,9 +57,9 @@ def randomMessage():
 
 
 def publishTarget():
-    # send a message
+    # send a message to the munin exchange.
     message = randomMessage()
-    channel.basic_publish(exchange='munin-tracking',
+    channel.basic_publish(exchange='munin',
                           routing_key='munin.tracking.objects',
                           body=message)
     print " [x] Sent %r" % (message,)
@@ -66,9 +73,13 @@ params = pika.URLParameters(url)
 connection = pika.BlockingConnection(params)  # Connect to CloudAMQP
 channel = connection.channel()                # start a channel
 
-channel.exchange_declare(exchange='munin-tracking',
+# Here's the exchange declaration.  We need to set the type and auto_delete
+# parameter to match the other clients.
+channel.exchange_declare(exchange='munin',
                          type='fanout',
                          auto_delete=True)
 
+# A little hackier than node's setInterval, but we can dump up some
+# random data periodically.
 t = threading.Timer(2.0, publishTarget)
 t.start()
