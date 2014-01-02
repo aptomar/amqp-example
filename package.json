@@ -1,27 +1,28 @@
 {
-    "name": "amqp-example",
-    "version": "0.0.0",
-    "description": "A simple AMQP example.  Placeholder web app that can set up an AMQP backend.",
-    "main": "web.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/aptomar/amqp-example"
-    },
-    "author": "Matt Long",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/aptomar/amqp-example/issues"
-    },
-    "homepage": "https://github.com/aptomar/amqp-example",
-    "dependencies": {
-        "logfmt": "~0.18.1",
-        "amqp": "~0.1.8",
-        "express": "~3.4.7"
-    },
-    "engines": {
-        "node": "0.10.x"
-    }
+  "name": "amqp-example",
+  "version": "0.0.0",
+  "description": "A simple AMQP example.  Placeholder web app that can set up an AMQP backend.",
+  "main": "web.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aptomar/amqp-example"
+  },
+  "author": "Matt Long",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aptomar/amqp-example/issues"
+  },
+  "homepage": "https://github.com/aptomar/amqp-example",
+  "dependencies": {
+    "logfmt": "~0.18.1",
+    "amqp": "~0.1.8",
+    "express": "~3.4.7",
+    "redis-url": "~0.2.0"
+  },
+  "engines": {
+    "node": "0.10.x"
+  }
 }

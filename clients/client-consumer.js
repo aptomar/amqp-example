@@ -1,29 +1,23 @@
-// web.js
-var express = require('express');
-var logfmt = require('logfmt');
 var amqp = require('amqp');
 
-var app = express();
-
-app.use(logfmt.requestLogger());
-
-app.get('/', function(req, res) {
-    res.send('Hello World!');
-});
-
-var port = process.env.PORT || 5000;
-app.listen(port, function() {
-    console.log('Listening on ' + port);
-});
-
-
-// Sketch in some AMQP-setup for the server.
+// Sketch in some AMQP-setup for a client subscriber
 
 var amqpUrl = process.env.CLOUDAMQP_URL || 'amqp://localhost'; // default to localhost
 var amqpConn = amqp.createConnection({url: amqpUrl}); // create the connection
 
 function handleMessage(message, headers, deliveryInfo) {
-    console.log('[Server] Got a message with routing key ' + deliveryInfo.routingKey + '\n\t message:' + message);
+    switch(deliveryInfo.routingKey) {
+    case 'munin.tracking.periodic-time':
+        console.log('[Client] Received time update: ' + message.toString());
+        break;
+    case 'munin.tracking.objects':
+        console.log('[Client] Received new tracked object: ' + message.data.toString());
+        break;
+    default:
+        console.log('[Client] Got a message with routing key ' + deliveryInfo.routingKey +
+                    '\n\t message:' + message.data.toString());
+    }
+
 }
 
 function subscribeToAmqpQueue(queue) {
