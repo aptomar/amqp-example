@@ -1,0 +1,10 @@
+*~
+.#*
+debian/*.debhelper*
+debian/files
+debian/*.substvars
+node_modules/
+src/*.log
+*.log
+tmp/
+npm-shrinkwrap.json
