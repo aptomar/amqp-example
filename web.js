@@ -6,12 +6,17 @@ var logfmt = require('logfmt');
 // node-amqp will allow us to use RabbitMQ
 var amqp = require('amqp');
 
+var messages = [];
 
 // Set up the basic web page
 var app = express();
 app.use(logfmt.requestLogger());
+app.use(express.static(__dirname + '/static'));
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
+
 app.get('/', function(req, res) {
-    res.send('Hello World!');
+    res.render('messages', {messages: messages});
 });
 
 var port = process.env.PORT || 5000;
@@ -26,17 +31,24 @@ var amqpConn = amqp.createConnection({url: amqpUrl}); // create the connection
 
 // Simple message handler: just dump what we get into the logs.
 function handleMessage(message, headers, deliveryInfo) {
+    var now = new Date();
+    var msg = '';
+
     switch(typeof(message)) {
     case 'string':
-        console.log('[Server] Got a message with routing key ' + deliveryInfo.routingKey + '\n\t message: ' + message);
+        msg = message;
         break;
     case 'object':
-        console.log('[Server] Got a message with routing key ' + deliveryInfo.routingKey +
-                    '\n\t message: ' + message.data.toString());
+        msg = message.data.toString();
         break;
     default:
-        console.log('[Server] Got a message, but is not sure how to process it.');
+        msg = '[ERR] Got a message, but is not sure how to process it.';
         break;
+    }
+    console.log('[Server]: ' + msg);
+    messages.push({timestamp: now, message: msg});
+    if (messages.length === 100) {
+        messages.shift();
     }
 }
 

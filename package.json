@@ -20,7 +20,8 @@
     "logfmt": "~0.18.1",
     "amqp": "~0.1.8",
     "express": "~3.4.7",
-    "redis-url": "~0.2.0"
+    "redis-url": "~0.2.0",
+    "ejs": "~0.8.5"
   },
   "engines": {
     "node": "0.10.x"
