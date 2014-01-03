@@ -62,7 +62,7 @@ def publishTarget():
     channel.basic_publish(exchange='munin',
                           routing_key='munin.tracking.objects',
                           body=message)
-    print " [x] Sent %r" % (message,)
+    print " [Python Publisher] Sent %r" % (message,)
     t = threading.Timer(2.0, publishTarget)
     t.start()
 

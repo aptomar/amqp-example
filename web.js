@@ -6,6 +6,8 @@ var logfmt = require('logfmt');
 // node-amqp will allow us to use RabbitMQ
 var amqp = require('amqp');
 
+var pdata = require('pretty-data');
+
 var messages = [];
 
 // Set up the basic web page
@@ -39,16 +41,16 @@ function handleMessage(message, headers, deliveryInfo) {
         msg = message;
         break;
     case 'object':
-        msg = message.data.toString();
+        msg = pdata.pd.xml(message.data.toString());
         break;
     default:
-        msg = '[ERR] Got a message, but is not sure how to process it.';
+        msg = '[ERR] Got a message, but I\'m not sure how to process it.';
         break;
     }
-    console.log('[Server]: ' + msg);
-    messages.push({timestamp: now, message: msg});
-    if (messages.length === 100) {
-        messages.shift();
+    console.log('[Javascript Server]: ' + msg);
+    var len = messages.unshift({timestamp: now, message: msg});
+    if (len === 100) {
+        messages.pop();
     }
 }
 

@@ -31,7 +31,7 @@
             <% for(var i=0; i < messages.length; i++) { %>
                <tr>
                  <td width="30%"><%= messages[i].timestamp %></td>
-                 <td width="70%"><%= messages[i].message %></td>
+                 <td width="70%"><pre><%= messages[i].message %></pre></td>
                </tr>
             <% } %>
           </tbody>

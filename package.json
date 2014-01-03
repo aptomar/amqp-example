@@ -21,7 +21,8 @@
     "amqp": "~0.1.8",
     "express": "~3.4.7",
     "redis-url": "~0.2.0",
-    "ejs": "~0.8.5"
+    "ejs": "~0.8.5",
+    "pretty-data": "~0.40.0"
   },
   "engines": {
     "node": "0.10.x"

@@ -9,7 +9,7 @@ var amqpConn = amqp.createConnection({url: amqpUrl}); // create the connection
 function publishTime(exchange) {
     var message = new Date();
     exchange.publish('munin.tracking.periodic-time', message);
-    console.log(' [x] Sent "%s"', message.toJSON());
+    console.log('[Javascript Publisher] Sent "%s"', message.toJSON());
 }
 
 // Set up the exchange.  This needs to match the exchange used by all clients.

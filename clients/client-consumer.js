@@ -10,13 +10,13 @@ var amqpConn = amqp.createConnection({url: amqpUrl}); // create the connection
 function handleMessage(message, headers, deliveryInfo) {
     switch(deliveryInfo.routingKey) {
     case 'munin.tracking.periodic-time':
-        console.log('[Client] Received time update: ' + message.toString());
+        console.log('[Javascript Consumer] Received time update: ' + message.toString());
         break;
     case 'munin.tracking.objects':
-        console.log('[Client] Received new tracked object: ' + message.data.toString());
+        console.log('[Javascript Consumer] Received new tracked object: ' + message.data.toString());
         break;
     default:
-        console.log('[Client] Got a message with routing key ' + deliveryInfo.routingKey +
+        console.log('[Javascript Consumer] Got a message with routing key ' + deliveryInfo.routingKey +
                     '\n\t message:' + message.data.toString());
     }
 
