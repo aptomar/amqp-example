@@ -20,7 +20,7 @@ function setupAmqpExchange() {
 
     amqpConn.exchange('munin', exchangeOpts, function(exchange) {
         console.log('Exchange ' + exchange.name + ' set up, starting publishing.');
-        setInterval(publishTime, 1000, exchange);
+        setInterval(publishTime, 100, exchange);
     }); // set up a munin exchange
 }
 
